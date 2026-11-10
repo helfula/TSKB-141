@@ -1,9 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-/// Удельное сопротивление алюминия, Ом * мм^2 / м
-const double RHO_ALUMINIUM = 0.028;
-
 /**
  * @brief Вычисляет сопротивление провода
  * @param l - длина провода в метрах
@@ -40,6 +36,8 @@ int main()
 
 double R(const double l, const double s)
 {
+    /// Удельное сопротивление алюминия, Ом * мм^2 / м
+    const double RHO_ALUMINIUM = 0.028;
     return RHO_ALUMINIUM * l / s;
 }
 
