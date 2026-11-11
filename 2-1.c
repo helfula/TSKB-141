@@ -3,14 +3,23 @@
 #include <math.h>
 
 /**
- * @brief Увеличивает значение A в k*N раз
+ * @brief Варианты увеличения значения A
+ */
+enum IncreaseType
+{
+    INCREASE_N = 1,  ///< увеличить A в N раз
+    INCREASE_2N = 2, ///< увеличить A в 2N раз
+    INCREASE_3N = 3  ///< увеличить A в 3N раз
+};
+
+/**
+ * @brief Увеличивает значение A в зависимости от выбранной формулы
  * @param a - исходное значение A
  * @param n - число N
- * @param k - множитель при N (1, 2 или 3)
+ * @param type - выбранный вариант увеличения (в N, 2N или 3N раз)
  * @return Увеличенное значение A
  */
-double increase(const double a, const double n, const int k);
-
+double increase(const double a, const double n, const enum IncreaseType type);
 
 /**
  * @brief Считывает с клавиатуры конечное значение с плавающей точкой
@@ -25,10 +34,10 @@ double getDouble();
 double getPositive();
 
 /**
- * @brief Считывает с клавиатуры номер формулы (1, 2 или 3)
- * @return Считанное значение
+ * @brief Считывает с клавиатуры номер формулы и проверяет его
+ * @return Выбранный вариант увеличения
  */
-int getChoice();
+enum IncreaseType getChoice();
 
 /**
  * @brief Точка входа в программу
@@ -42,25 +51,34 @@ int main()
     double n = getPositive();
 
     printf("Во сколько раз увеличить A?\n");
-    printf("1 - в N раз\n");
-    printf("2 - в 2N раз\n");
-    printf("3 - в 3N раз\n");
+    printf("%d - в N раз\n", INCREASE_N);
+    printf("%d - в 2N раз\n", INCREASE_2N);
+    printf("%d - в 3N раз\n", INCREASE_3N);
     printf("Ваш выбор: ");
-    int k = getChoice();
+    enum IncreaseType type = getChoice();
 
     printf("\nA до увеличения: %lf\n", a);
     printf("N = %lf\n", n);
-    printf("Множитель %d*N = %lf\n", k, k * n);
-    a = increase(a, n, k);
+    a = increase(a, n, type);
     printf("A после увеличения: %lf\n", a);
     return 0;
 }
 
-double increase(const double a, const double n, const int k)
+double increase(const double a, const double n, const enum IncreaseType type)
 {
-    return a * k * n;
+    switch (type)
+    {
+        case INCREASE_N:
+            return a * n;
+        case INCREASE_2N:
+            return a * 2 * n;
+        case INCREASE_3N:
+            return a * 3 * n;
+        default:
+            printf("Ошибка: неизвестная формула\n");
+            exit(1);
+    }
 }
-
 
 double getDouble()
 {
@@ -84,13 +102,13 @@ double getPositive()
     return value;
 }
 
-int getChoice()
+enum IncreaseType getChoice()
 {
     int value = 0;
-    if (scanf("%d", &value) != 1 || value < 1 || value > 3)
+    if (scanf("%d", &value) != 1 || value < INCREASE_N || value > INCREASE_3N)
     {
-        printf("Ошибка: нужно ввести 1, 2 или 3\n");
+        printf("Ошибка: нужно ввести %d, %d или %d\n", INCREASE_N, INCREASE_2N, INCREASE_3N);
         exit(1);
     }
-    return value;
+    return (enum IncreaseType)value;
 }
