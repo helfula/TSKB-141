@@ -101,7 +101,7 @@ void checkEpsilon(const double e)
 {
     if (e <= DBL_EPSILON)
     {
-        printf("Error, e have to be greater !!!!!!! than %g\n", DBL_EPSILON);
+        printf("Error, e have to be greater than %g\n", DBL_EPSILON);
         exit(1);
     }
 }
